@@ -400,16 +400,22 @@ function getBalanceIndex(arr) {
 function getSpiralMatrix(size) {
   const major = [];
   for (let i = 0; i < size; i += 1) {
-    const minor = new Array(size).fill(0);
-    major.push(minor);
+    const minor = [];
+    for (let n = 0; n < size; n += 1) {
+      minor[n] = 0;
+    }
+    major[i] = minor;
   }
   let count = 1;
   let k = 0;
   let command = 'right';
   for (let j = 0; j < size; j += 1) {
-    while (command === 'right') {
-      if (k >= size) {
+    let check = true;
+    if (count > size * size) break;
+    while (command === 'right' && check) {
+      if (k >= size || major[j][k] !== 0) {
         command = 'down';
+        check = !check;
         k -= 1;
         break;
       }
@@ -417,32 +423,44 @@ function getSpiralMatrix(size) {
       k += 1;
       count += 1;
     }
-    while (command === 'down') {
-      if (j >= size) {
+    while (command === 'down' && check) {
+      if (j >= size || major[j][k] !== 0) {
         command = 'left';
-        j -= 1;
-        break;
-      }
-      major[j][k] = count;
-      count += 1;
-    }
-    while (command === 'left') {
-      if (k >= size) {
-        command = 'up';
+        check = !check;
         k -= 1;
+        j -= 2;
         break;
       }
       major[j][k] = count;
+      j += 1;
       count += 1;
     }
-    while (command === 'up') {
-      if ()
+    while (command === 'left' && check) {
+      if (k >= size || major[j][k] !== 0) {
+        command = 'up';
+        check = !check;
+        k += 1;
+        j -= 2;
+        break;
+      }
+      major[j][k] = count;
+      k -= 1;
+      count += 1;
+    }
+    while (command === 'up' && check) {
+      if (major[j][k] !== 0) {
+        command = 'right';
+        check = !check;
+        k += 1;
+        break;
+      }
+      major[j][k] = count;
+      j -= 1;
+      count += 1;
     }
   }
-  return console.log(major);
+  return major;
 }
-
-getSpiralMatrix(3);
 
 /**
  * Rotates a matrix by 90 degrees clockwise in place.
