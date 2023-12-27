@@ -404,71 +404,45 @@ function getSpiralMatrix(size) {
     major.push(minor);
   }
   let count = 1;
-  let j = 0;
   let k = 0;
-  function up() {
-    if (count > size * size) {
-      return;
-    }
-    j -= 1;
-    if (major[j][k] !== 0) {
-      j += 1;
-      k += 1;
-      right();
-    } else {
-      major[j][k] = count;
-      count += 1;
-      up();
-    }
-  }
-  function left() {
-    if (count > size * size) {
-      return;
-    }
-    if (major[j][k] !== 0) {
-      k += 1;
-      up();
-    } else {
-      major[j][k] = count;
-      k -= 1;
-      count += 1;
-      left();
-    }
-  }
-  function down() {
-    if (count > size * size) {
-      return;
-    }
-    j += 1;
-    if (j > size - 1 || major[j][k] !== 0) {
-      j -= 1;
-      k -= 1;
-      left();
-    } else {
-      major[j][k] = count;
-      count += 1;
-      down();
-    }
-  }
-  function right() {
-    if (count > size * size) {
-      return;
-    }
-    if (major[j][k] !== 0) {
-      k -= 1;
-      down();
-    } else {
+  let command = 'right';
+  for (let j = 0; j < size; j += 1) {
+    while (command === 'right') {
+      if (k >= size) {
+        command = 'down';
+        k -= 1;
+        break;
+      }
       major[j][k] = count;
       k += 1;
       count += 1;
-      right();
+    }
+    while (command === 'down') {
+      if (j >= size) {
+        command = 'left';
+        j -= 1;
+        break;
+      }
+      major[j][k] = count;
+      count += 1;
+    }
+    while (command === 'left') {
+      if (k >= size) {
+        command = 'up';
+        k -= 1;
+        break;
+      }
+      major[j][k] = count;
+      count += 1;
+    }
+    while (command === 'up') {
+      if ()
     }
   }
-  right();
-  return major;
+  return console.log(major);
 }
 
-getSpiralMatrix(5);
+getSpiralMatrix(3);
 
 /**
  * Rotates a matrix by 90 degrees clockwise in place.
