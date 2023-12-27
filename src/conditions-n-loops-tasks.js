@@ -355,31 +355,26 @@ function isContainNumber(num, digit) {
  */
 function getBalanceIndex(arr) {
   if (arr.length < 3) return -1;
-  const mid = Math.floor(arr.length / 2);
-  // let rightId = mid + 1;
-  let left = 0;
-  let right = 0;
-  // for (let i = 0; i < arr.length; i += 1) {
-  //   if (i === mid) {
-  //     if (right === left) return mid;
-  //     break;
-  //   }
-  //   right += arr[i];
-  //   left += arr[rightId] ? arr[rightId] : 0;
-  //   rightId += 1;
-  // }
-  for (let i = 0; i < mid; i += 1) {
-    right += arr[i];
-  }
-  for (let j = mid + 1; j < arr.length; j += 1) {
-    left += arr[j];
+
+  for (let i = 1; i < arr.length - 1; i += 1) {
+    let leftSum = 0;
+    let rightSum = 0;
+
+    for (let j = 0; j < i; j += 1) {
+      leftSum += arr[j];
+    }
+
+    for (let k = i + 1; k < arr.length; k += 1) {
+      rightSum += arr[k];
+    }
+
+    if (leftSum === rightSum) {
+      return i;
+    }
   }
 
-  return right === left ? mid : -1;
-  // return -1;
+  return -1;
 }
-
-getBalanceIndex([2, 3, 9, 5, 0, 0, 14, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
 
 /**
  * Generates a spiral matrix of a given size, filled with numbers in ascending order starting from one.
@@ -402,9 +397,78 @@ getBalanceIndex([2, 3, 9, 5, 0, 0, 14, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
  *          [10, 9,  8,  7]
  *        ]
  */
-function getSpiralMatrix(/* size */) {
-  throw new Error('Not implemented');
+function getSpiralMatrix(size) {
+  const major = [];
+  for (let i = 0; i < size; i += 1) {
+    const minor = new Array(size).fill(0);
+    major.push(minor);
+  }
+  let count = 1;
+  let j = 0;
+  let k = 0;
+  function up() {
+    if (count > size * size) {
+      return;
+    }
+    j -= 1;
+    if (major[j][k] !== 0) {
+      j += 1;
+      k += 1;
+      right();
+    } else {
+      major[j][k] = count;
+      count += 1;
+      up();
+    }
+  }
+  function left() {
+    if (count > size * size) {
+      return;
+    }
+    if (major[j][k] !== 0) {
+      k += 1;
+      up();
+    } else {
+      major[j][k] = count;
+      k -= 1;
+      count += 1;
+      left();
+    }
+  }
+  function down() {
+    if (count > size * size) {
+      return;
+    }
+    j += 1;
+    if (j > size - 1 || major[j][k] !== 0) {
+      j -= 1;
+      k -= 1;
+      left();
+    } else {
+      major[j][k] = count;
+      count += 1;
+      down();
+    }
+  }
+  function right() {
+    if (count > size * size) {
+      return;
+    }
+    if (major[j][k] !== 0) {
+      k -= 1;
+      down();
+    } else {
+      major[j][k] = count;
+      k += 1;
+      count += 1;
+      right();
+    }
+  }
+  right();
+  return major;
 }
+
+getSpiralMatrix(5);
 
 /**
  * Rotates a matrix by 90 degrees clockwise in place.
