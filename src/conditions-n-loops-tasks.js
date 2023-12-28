@@ -547,16 +547,33 @@ function sortByAsc(arr) {
  */
 function shuffleChar(str, iterations) {
   let mutateStr = str;
+  let mutateArr = str.split('');
   for (let i = 0; i < iterations; i += 1) {
     let del = 0;
     for (let j = 1; j < str.length; j += 1) {
       if (j % 2 !== 0) {
-        const delId = j - del;
-        mutateStr += mutateStr[delId];
-        mutateStr = mutateStr.slice(0, delId) + mutateStr.slice(delId + 1);
-        del += 1;
+        let curr = j;
+        let next = j + 1;
+        while (next && del !== 0) {
+          const delId = j - del;
+          const temp = mutateArr[curr];
+          mutateArr[curr] = mutateArr[next];
+          mutateArr[next] = temp;
+          // mutateStr += mutateStr[delId];
+          // mutateStr = mutateStr.slice(0, delId) + mutateStr.slice(delId + 1);
+          del += 1;
+        }
       }
     }
+    // let j = 1;
+    // while (j < str.length) {
+    //   if (j % 2 !== 0) {
+    //     const delId = j - del;
+    //     mutateArr = 
+    //     del += 1;
+    //   }
+    //   j += 1;
+    // }
   }
   return mutateStr;
 }
