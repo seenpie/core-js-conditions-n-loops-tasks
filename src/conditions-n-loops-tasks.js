@@ -514,19 +514,16 @@ function rotateMatrix(matrix) {
 function sortByAsc(arr) {
   const lenght = arr.length;
   const nwa = arr;
-  for (let i = 0; i < lenght - 1; i += 1) {
-    let minIndex = i;
-    for (let j = i + 1; j < lenght; j += 1) {
-      if (nwa[j] < nwa[minIndex]) {
-        minIndex = j;
-      }
+  for (let i = 1; i < lenght; i += 1) {
+    const current = nwa[i];
+    let j = i - 1;
+
+    while (j >= 0 && nwa[j] > current) {
+      nwa[j + 1] = nwa[j];
+      j -= 1;
     }
 
-    if (minIndex !== i) {
-      const temp = nwa[i];
-      nwa[i] = nwa[minIndex];
-      nwa[minIndex] = temp;
-    }
+    nwa[j + 1] = current;
   }
   return nwa;
 }
