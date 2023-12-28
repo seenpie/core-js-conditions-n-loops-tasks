@@ -528,8 +528,6 @@ function sortByAsc(arr) {
   return nwa;
 }
 
-sortByAsc([2, 9, 5, 9]);
-
 /**
  * Shuffles characters in a string so that the characters with an odd index are moved to the end of the string at each iteration.
  * Take into account that the string can be very long and the number of iterations is large. Consider how you can optimize your solution.
@@ -540,16 +538,29 @@ sortByAsc([2, 9, 5, 9]);
  * @return {string} The shuffled string.
  *
  * @example:
- *  '012345', 1 => '024135'
+ *  '012345', 1 => '024135' 0 2 4 135
  *  'qwerty', 1 => 'qetwry'
  *  '012345', 2 => '024135' => '043215'
  *  'qwerty', 2 => 'qetwry' => 'qtrewy'
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(/* str, iterations */) {
-  throw new Error('Not implemented');
+function shuffleChar(str, iterations) {
+  let mutateStr = str;
+  for (let i = 0; i < iterations; i += 1) {
+    let del = 0;
+    for (let j = 1; j < str.length; j += 1) {
+      if (j % 2 !== 0) {
+        const delId = j - del;
+        mutateStr += mutateStr[delId];
+        mutateStr = mutateStr.slice(0, delId) + mutateStr.slice(delId + 1);
+        del += 1;
+      }
+    }
+  }
+  return mutateStr;
 }
+shuffleChar('012345', 3);
 
 /**
  * Returns the nearest largest integer consisting of the digits of the given positive integer.
