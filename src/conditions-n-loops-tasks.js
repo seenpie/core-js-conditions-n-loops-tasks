@@ -538,7 +538,7 @@ function sortByAsc(arr) {
  * @return {string} The shuffled string.
  *
  * @example:
- *  '012345', 1 => '024135' 0 2 4 135
+ *  '012345', 1 => '024135'
  *  'qwerty', 1 => 'qetwry'
  *  '012345', 2 => '024135' => '043215'
  *  'qwerty', 2 => 'qetwry' => 'qtrewy'
@@ -546,36 +546,32 @@ function sortByAsc(arr) {
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
 function shuffleChar(str, iterations) {
-  let mutateStr = str;
-  let mutateArr = str.split('');
+  let compare = str;
+  const lenght = compare.length;
+  let result = '';
+  let array;
+
   for (let i = 0; i < iterations; i += 1) {
-    let del = 0;
-    for (let j = 1; j < str.length; j += 1) {
-      if (j % 2 !== 0) {
-        let curr = j;
-        let next = j + 1;
-        while (next && del !== 0) {
-          const delId = j - del;
-          const temp = mutateArr[curr];
-          mutateArr[curr] = mutateArr[next];
-          mutateArr[next] = temp;
-          // mutateStr += mutateStr[delId];
-          // mutateStr = mutateStr.slice(0, delId) + mutateStr.slice(delId + 1);
-          del += 1;
-        }
-      }
+    let oddIndex = lenght / 2;
+    let evenIndex = 0;
+    array = [];
+    let j = 1;
+
+    while (evenIndex < lenght / 2) {
+      array[evenIndex] = compare[j - 1];
+      array[oddIndex] = compare[j];
+
+      oddIndex += 1;
+      evenIndex += 1;
+      j += 2;
     }
-    // let j = 1;
-    // while (j < str.length) {
-    //   if (j % 2 !== 0) {
-    //     const delId = j - del;
-    //     mutateArr = 
-    //     del += 1;
-    //   }
-    //   j += 1;
-    // }
+
+    compare = array;
   }
-  return mutateStr;
+  for (let k = 0; k < lenght; k += 1) {
+    result += compare[k];
+  }
+  return result;
 }
 shuffleChar('012345', 3);
 
