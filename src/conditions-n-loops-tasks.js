@@ -545,21 +545,27 @@ function sortByAsc(arr) {
  *  '012345', 3 => '024135' => '043215' => '031425'
  *  'qwerty', 3 => 'qetwry' => 'qtrewy' => 'qrwtey'
  */
-function shuffleChar(str, iterations, result, rem) {
-  // console.log(str);
-  // console.log(iterations);
-  if (rem <= 0) return result;
-  let reminder = rem;
-  if (!rem) {
-    reminder = iterations;
+function shuffleChar(str, iterations, result, num) {
+  if (iterations === 0) {
+    if (result) {
+      return result;
+    }
+    return str;
+  }
+  let iteration;
+  let mainIteration = iterations;
+  if (num !== undefined) {
+    iteration = num;
+  } else {
+    iteration = 0;
   }
   if (str === result) {
-    let temp = iterations - reminder;
-    // console.log(temp);
-    while (temp <= iterations) {
-      temp += temp;
+    while (mainIteration >= iteration) {
+      mainIteration -= iteration;
     }
-    reminder = temp - iterations;
+    if (mainIteration === 0) {
+      return result;
+    }
   }
   let resultStr = '';
   const { length } = str;
@@ -569,35 +575,8 @@ function shuffleChar(str, iterations, result, rem) {
   for (let i = 1; i < length; i += 2) {
     resultStr += result ? result[i] : str[i];
   }
-  return shuffleChar(str, iterations, resultStr, reminder - 1);
+  return shuffleChar(str, mainIteration - 1, resultStr, iteration + 1);
 }
-// console.log(
-//   shuffleChar(
-//     '4347480670583930381741456083967966564348305762365124220063694330386231420373093526619999030401216634',
-//     15
-//   )
-// ); // 4636631860509429816333873730831456390194003340974135292955768244336867323946601291260653600030447624
-// console.log(shuffleChar('012345', 23));
-// console.log(16 % 4);
-
-for (let i = 0; i < 15; i += 1) {
-  let temp = shuffleChar('012345', i);
-  let res = '012345';
-  if (temp === res) {
-    console.log(i, res.length);
-  }
-}
-// for (let i = 0; i < 100; i += 1) {
-//   let temp = shuffleChar(
-//     '4347480670583930381741456083967966564348305762365124220063694330386231420373093526619999030401216634',
-//     i
-//   );
-//   let res =
-//     '4347480670583930381741456083967966564348305762365124220063694330386231420373093526619999030401216634';
-//   if (temp === res) {
-//     console.log(i);
-//   }
-// }
 
 /**
  * Returns the nearest largest integer consisting of the digits of the given positive integer.
