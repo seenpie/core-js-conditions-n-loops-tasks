@@ -599,15 +599,39 @@ function getArrayFromNums(number) {
   const arr = [];
   let nums = number;
   while (nums > 0) {
-    arr.unshift(`${nums % 10}`);
+    arr.unshift(nums % 10);
     nums = Math.floor(nums / 10);
   }
   return arr;
 }
 
 function getNearestBigger(number) {
-  return getArrayFromNums(number);
+  let array = getArrayFromNums(number);
+
+  let i = array.length - 1;
+  while (i > 0 && array[i - 1] >= array[i]) {
+    i -= 1;
+  }
+
+  if (i <= 0) {
+    return number;
+  }
+
+  let j = array.length - 1;
+  while (array[j] <= array[i - 1]) {
+    j -= 1;
+  }
+
+  [array[i - 1], array[j]] = [array[j], array[i - 1]];
+
+  const rem = array.splice(i);
+  rem.sort((a, b) => a - b);
+  array = [...array, ...rem];
+
+  return Number(array.join(''));
 }
+
+// console.log(getNearestBigger(123))
 
 module.exports = {
   isPositive,
